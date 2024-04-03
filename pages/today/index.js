@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
-import Todo from '../components/Todo/Todo';
-import AddForm from "../components/AddForm/AddForm";
+import Todo from '../../components/Todo/Todo';
+import AddForm from "../../components/AddForm/AddForm";
 // import { MongoClient } from "mongodb";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
