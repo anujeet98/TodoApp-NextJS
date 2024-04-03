@@ -1,23 +1,27 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Todo from '../components/Todo/Todo';
 import AddForm from "../components/AddForm/AddForm";
 // import { MongoClient } from "mongodb";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
 
-function HomePage(props){
+function HomePage(){
+    const [todos, setTodos] = useState([]);
+    function addTodoHandler(todo){
+        setTodos((oldTodos)=>([...oldTodos, todo]));
+    }
     return (
         <Fragment>
             <Head>
                 <title>Todo</title>
                 <meta name="description" content="Create-track your daily todos" />
             </Head>
-            <Container fluid className="border bg-light w-75" style={{height: '100vh'}}>
+            <Container fluid className="border bg-light w-75 pt-4" style={{height: '100vh'}}>
                 <span className=" fw-bold fs-5">Today</span>
                 <hr></hr>   
-                <Todo />
+                <Todo todoList={todos} />
                 <hr></hr>
-                <AddForm />
+                <AddForm onNewTodo={addTodoHandler} />
             </Container>
         </Fragment>
     )

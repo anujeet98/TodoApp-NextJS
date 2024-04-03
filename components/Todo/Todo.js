@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TodoItem from './TodoItem';
 
-function todo() {
-    const [todos, setTodos] = useState(['Gym', 'Practice DSA']);
-    if(todos.length===0)
+function todo(props) {
+    // const [todos, setTodos] = useState(['Gym', 'Practice DSA']);
+    if(props.todoList.length===0)
         return <div className='d-flex align-items-center justify-content-center '>No todos to display</div>
     return (
-        <ul className='border border-secondary rounded-2 p-2'>
-            {todos.map(todo=>(
+        <ul className='p-2'>
+            {props.todoList.map(todo=>(
                 <TodoItem task={todo}/>
             ))}
         </ul>
