@@ -10,6 +10,12 @@ function HomePage(){
     function addTodoHandler(todo){
         setTodos((oldTodos)=>([...oldTodos, todo]));
     }
+    function deleteTodoHandler(todo){
+        setTodos((oldTodos)=>{
+            const updatedTodo = [...oldTodos];
+            return updatedTodo.filter(oldTodo => oldTodo!==todo);    
+        });
+    }
     return (
         <Fragment>
             <Head>
@@ -19,7 +25,7 @@ function HomePage(){
             <Container fluid className="border bg-light w-75 pt-4" style={{height: '100vh'}}>
                 <span className=" fw-bold fs-5">Today</span>
                 <hr></hr>   
-                <Todo todoList={todos} />
+                <Todo todoList={todos} onDeleteTodo={deleteTodoHandler} />
                 <hr></hr>
                 <AddForm onNewTodo={addTodoHandler} />
             </Container>

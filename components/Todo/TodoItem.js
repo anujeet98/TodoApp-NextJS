@@ -11,7 +11,7 @@ function TodoItem(props) {
                     <RiCheckboxBlankCircleLine type='button' onMouseEnter={()=>setFillCheckBox(true)} /> }
                 {props.task}
             </div>
-            <RiDeleteBinLine color='maroon' type='button'/>
+            <RiDeleteBinLine color='maroon' type='button' onClick={()=>props.onDeleteTodo(props.task)}/>
         </li>
     )
 }

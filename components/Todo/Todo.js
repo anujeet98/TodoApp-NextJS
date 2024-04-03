@@ -8,7 +8,7 @@ function todo(props) {
     return (
         <ul className='p-2'>
             {props.todoList.map(todo=>(
-                <TodoItem task={todo}/>
+                <TodoItem task={todo} onDeleteTodo={(todo)=>props.onDeleteTodo(todo)}/>
             ))}
         </ul>
     )
