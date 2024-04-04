@@ -58,7 +58,7 @@ export async function getStaticProps(){
         const client = await MongoClient.connect(`${process.env.MONGODB_CONN_URL}`);
         const db = client.db();
         const todosCollection = db.collection('todos');
-        todos = await todosCollection.find().toArray();
+        todos = await todosCollection.find({completed: false}).toArray();
         client.close();
     }
     catch(err){
