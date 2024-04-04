@@ -8,8 +8,22 @@ function TodoItem(props) {
     const router = useRouter();
     async function completeTodoHandler(){
         try{
-            await axios.patch(`/api/update-todo/${props.todo.id}`);
+            await axios.patch(`/api/${props.todo.id}`);
             router.push('/today');
+        }
+        catch(err){
+            if(err.response && err.response.data){
+                alert(err.response.data.message)
+            }
+        }
+    }
+    async function deleteTodoHandler(){
+        try{
+            if(confirm(`Are you sure you want to delete the todo: \n${props.todo.task}`))
+            {
+                await axios.delete(`/api/${props.todo.id}`);
+                router.push('/today');
+            }
         }
         catch(err){
             if(err.response && err.response.data){
@@ -25,7 +39,7 @@ function TodoItem(props) {
                     <RiCheckboxBlankCircleLine type='button' onMouseEnter={()=>setFillCheckBox(true)} onClick={completeTodoHandler}/> }
                 {props.todo.task}
             </div>
-            <RiDeleteBinLine color='maroon' type='button' onClick={()=>props.onDeleteTodo(props.todo.id)}/>
+            <RiDeleteBinLine color='maroon' type='button' onClick={deleteTodoHandler}/>
         </li>
     )
 }

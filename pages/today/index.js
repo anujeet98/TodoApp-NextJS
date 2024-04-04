@@ -20,20 +20,7 @@ function HomePage(props){
             }
         }
     }
-    async function deleteTodoHandler(todoId){
-        try{
-            if(confirm('Are you sure you want to delete the todo'))
-            {
-                await axios.delete(`/api/${todoId}`);
-                router.push('/today');
-            }
-        }
-        catch(err){
-            if(err.response && err.response.data){
-                alert(err.response.data.message)
-            }
-        }
-    }
+
     return (
         <Fragment>
             <Head>
@@ -43,7 +30,7 @@ function HomePage(props){
             <Container fluid className="border bg-light w-75 pt-4" style={{height: '100vh'}}>
                 <span className=" fw-bold fs-5">Today</span>
                 <hr></hr>   
-                <Todo todoList={props.todos} onDeleteTodo={deleteTodoHandler} />
+                <Todo todoList={props.todos} />
                 <hr></hr>
                 <AddForm onNewTodo={addTodoHandler} />
             </Container>
