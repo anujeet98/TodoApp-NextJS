@@ -8,7 +8,7 @@ async function addTodoHandler(req, res){
             const client = await MongoClient.connect(`${process.env.MONGODB_CONN_URL}`);
             const db = client.db();
             const todosCollection = db.collection('todos');
-            const result = await todosCollection.insertOne({task: task, date: new Date()});
+            const result = await todosCollection.insertOne({task: task, date: new Date(), completed: false});
             client.close();
             res.status(200).json({result});
         }
