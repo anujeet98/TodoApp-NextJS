@@ -5,16 +5,6 @@ import { Container } from "react-bootstrap";
 const DUMMY=['Gym', 'Lunch'];
 
 function CompletedPage(){
-    // const [todos, setTodos] = useState([]);
-    // function addTodoHandler(todo){
-    //     setTodos((oldTodos)=>([...oldTodos, todo]));
-    // }
-    // function deleteTodoHandler(todo){
-    //     setTodos((oldTodos)=>{
-    //         const updatedTodo = [...oldTodos];
-    //         return updatedTodo.filter(oldTodo => oldTodo!==todo);    
-    //     });
-    // }
     return (
         <Fragment>
             <Head>

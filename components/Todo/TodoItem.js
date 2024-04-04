@@ -8,10 +8,10 @@ function TodoItem(props) {
             <div className='d-flex align-items-center gap-2'>
                 {fillCheckBox ? 
                     <RiCheckboxCircleFill color='grey' type='button' onMouseLeave={()=>setFillCheckBox(false)}/> : 
-                    <RiCheckboxBlankCircleLine type='button' onMouseEnter={()=>setFillCheckBox(true)} /> }
-                {props.task}
+                    <RiCheckboxBlankCircleLine type='button' onMouseEnter={()=>setFillCheckBox(true)} onClick={()=>props.onComplete(props.todo.id)}/> }
+                {props.todo.task}
             </div>
-            <RiDeleteBinLine color='maroon' type='button' onClick={()=>props.onDeleteTodo(props.task)}/>
+            <RiDeleteBinLine color='maroon' type='button' onClick={()=>props.onDeleteTodo(props.todo.id)}/>
         </li>
     )
 }

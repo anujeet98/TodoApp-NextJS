@@ -8,7 +8,7 @@ function AddForm(props) {
 
     function submitFormHandler(e){
         e.preventDefault();
-        props.onNewTodo(todoRef.current.value);
+        props.onNewTodo({task: todoRef.current.value});
         todoRef.current.value='';
     }
 

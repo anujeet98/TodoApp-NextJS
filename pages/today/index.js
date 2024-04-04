@@ -1,20 +1,38 @@
 import { Fragment, useState } from "react";
 import Todo from '../../components/Todo/Todo';
 import AddForm from "../../components/AddForm/AddForm";
-// import { MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-function HomePage(){
-    const [todos, setTodos] = useState([]);
-    function addTodoHandler(todo){
-        setTodos((oldTodos)=>([...oldTodos, todo]));
+function HomePage(props){
+    const router = useRouter();
+    async function addTodoHandler(todo){
+        try{
+            await axios.post('/api/add-todo', todo);
+            router.push('/today');
+        }
+        catch(err){
+            if(err.response && err.response.data){
+                alert(err.response.data.message)
+            }
+        }
     }
-    function deleteTodoHandler(todo){
-        setTodos((oldTodos)=>{
-            const updatedTodo = [...oldTodos];
-            return updatedTodo.filter(oldTodo => oldTodo!==todo);    
-        });
+    async function deleteTodoHandler(todoId){
+        try{
+            if(confirm('Are you sure you want to delete the todo'))
+            {
+                await axios.delete(`/api/${todoId}`);
+                router.push('/today');
+            }
+        }
+        catch(err){
+            if(err.response && err.response.data){
+                alert(err.response.data.message)
+            }
+        }
     }
     return (
         <Fragment>
@@ -25,7 +43,7 @@ function HomePage(){
             <Container fluid className="border bg-light w-75 pt-4" style={{height: '100vh'}}>
                 <span className=" fw-bold fs-5">Today</span>
                 <hr></hr>   
-                <Todo todoList={todos} onDeleteTodo={deleteTodoHandler} />
+                <Todo todoList={props.todos} onDeleteTodo={deleteTodoHandler} />
                 <hr></hr>
                 <AddForm onNewTodo={addTodoHandler} />
             </Container>
@@ -34,29 +52,27 @@ function HomePage(){
 }
 
 
-// export async function getStaticProps(){
-//     let meetupsData = [];
-//     try{
-//         const client = await MongoClient.connect(`${process.env.MONGODB_CONN_URL}`);
-//         const db = client.db();
-//         const meetupsCollection = db.collection('meetups');
-//         meetupsData = await meetupsCollection.find().toArray();
-//         client.close();
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-//     return {
-//         props: {
-//             meetups: meetupsData.map(meetup => ({
-//                 id: meetup._id.toString(),
-//                 title: meetup.title,
-//                 image: meetup.image,
-//                 address: meetup.address,
-//                 decription: meetup.description,
-//             })),
-//         },
-//         revalidate: 1,
-//     }
-// }
+export async function getStaticProps(){
+    let todos = [];
+    try{
+        const client = await MongoClient.connect(`${process.env.MONGODB_CONN_URL}`);
+        const db = client.db();
+        const todosCollection = db.collection('todos');
+        todos = await todosCollection.find().toArray();
+        client.close();
+    }
+    catch(err){
+        console.log(err);
+    }
+    return {
+        props: {
+            todos: todos.map(todo => ({
+                id: todo._id.toString(),
+                task: todo.task,
+                date: new Date(todo.date).toISOString(),
+            })),
+        },
+        revalidate: 1,
+    }
+}
 export default HomePage;
