@@ -4,23 +4,8 @@ import AddForm from "../../components/AddForm/AddForm";
 import { MongoClient } from "mongodb";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
-import axios from "axios";
-import { useRouter } from "next/router";
 
 function HomePage(props){
-    const router = useRouter();
-    async function addTodoHandler(todo){
-        try{
-            await axios.post('/api/add-todo', todo);
-            router.push('/today');
-        }
-        catch(err){
-            if(err.response && err.response.data){
-                alert(err.response.data.message)
-            }
-        }
-    }
-
     return (
         <Fragment>
             <Head>
@@ -32,7 +17,7 @@ function HomePage(props){
                 <hr></hr>   
                 <Todo todoList={props.todos} />
                 <hr></hr>
-                <AddForm onNewTodo={addTodoHandler} />
+                <AddForm />
             </Container>
         </Fragment>
     )

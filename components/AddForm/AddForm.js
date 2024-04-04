@@ -1,15 +1,36 @@
 import React, { useRef, useState } from 'react';
 import { RiAddLine } from '@remixicon/react'
 import { Button, Form, FormControl } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
-function AddForm(props) {
+async function addTodoHandler(todo){
+    try{
+        await axios.post('/api/add-todo', todo);
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+
+function AddForm() {
+    const router = useRouter();
     const [showForm, setShowForm] = useState(false);
     const todoRef = useRef('');
 
-    function submitFormHandler(e){
+    async function submitFormHandler(e){
         e.preventDefault();
-        props.onNewTodo({task: todoRef.current.value});
-        todoRef.current.value='';
+        try{
+            await addTodoHandler({task: todoRef.current.value});
+            router.push('/today');
+            todoRef.current.value='';
+        }
+        catch(err){
+            if(err.response && err.response.data){
+                alert(err.response.data.message)
+            }
+        }
     }
 
     if(!showForm){
